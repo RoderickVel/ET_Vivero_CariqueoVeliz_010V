@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+  <title>Vivero Maqueta v1</title> 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  {% load static %}
+  <link href="{% static 'css/styles.css' %}" type="text/css" rel="stylesheet">
+  <script src="{% static 'js/funciones.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+function MostrarFecha() 
+    {   
+      document.getElementById('demo').innerHTML = Date().toString().substring(4,15);
+    }
+
+    function mytime()
+    {
+      var d=new Date();
+      ap="am";
+      h=d.getHours();
+      m=d.getMinutes();
+      s=d.getSeconds();
+      if (h>11) { ap = "pm"; }
+      if (h>12) { h = h-12; }
+      if (h==0) { h = 12; }
+      if (m<10) { m = "0" + m; }
+      if (s<10) { s = "0" + s; }
+      document.getElementById('timehere').innerHTML=h + ":" + m + ":" + s + " " + ap;
+      t=setTimeout('mytime()',500);
+    }
+
+  </script>
+</head>
+
+<body>
+  {% load static %}
+  <div class="header-row" id="header-row" style="padding: 0px; overflow:hidden;">
+  <div class="container-fluid" style="padding-top: 50px;">
+    <div class="row"> 
+      <div class="col-xs-12"> 
+          <a class="navbar-brand logo" href="{% url 'index' %}">
+            <img src="{% static 'img/bannerlogo1.jpg' %}" alt="company logo" style="width: 100%;">
+          </a> 
+      </div>     
+    </div>
+  </div>
+  </div>
+
+  <!--navbar-->
+  <nav class="navbar fixed-top navbar-expand-sm navbar-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
+      <span class="navbar-toggler-icon btn-outline-success"></span>
+    </button>
+    
+    <!-- logo -->
+    <a class="navbar-brand" href="{% url 'index' %}" style="padding-left: 30px">
+      <img src="{% static 'img/tree-icon.png' %}" width="30" height="30" alt="">
+    </a>
+    
+    <!-- enlaces -->
+    <div class="collapse navbar-collapse" id="opciones">   
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="btn btn-outline-success me-2" href="{% url 'index' %}" role="button">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'productos' %}">Catálogo</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'somos' %}">Quienes Somos</a>
+        </li> 
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'formulario' %}">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'formulario_registro' %}">Registro</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" id="demo" onclick="MostrarFecha(this)">Fecha</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" id="timehere" onclick="mytime()">Mostrar Hora</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+                <a href="{% url 'mostrar_clientes' %}" class="btn btn-success">Clientes</a>
+                <a href="{% url 'mostrar_productos' %}" class="btn btn-success">Productos</a>
+                <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
+                <a href="#"->Bienvenido {{user.username}}</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="btn btn-success">Iniciar Sesión</a>
+      {% endif %}
+    </div>
+  </nav>
+  <script src="https ://code.jquery.com/jquery-3.4.1.min.js" integrity= "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSF1Bw8HfCJo=" crossorigin=" anonymous" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <br>
+    <hr>
+    <div class="row jumbotron" id="qSomos" style="background-color:lightgray; padding:3px">
+        <div class="col-lg-6">
+            <div>
+                <br>
+                <h1 class="card-title"><strong>Quiénes somos</strong></h1>
+                <br>
+                <p style="text-align: center; padding-left: 3px;">
+                    Somos una comunidad formada hace 2 años, como respuesta a la necesidad de apoyar a las familias 
+                    víctimas de la crisis sanitaria que aún nos afecta. Muchos grupos familiares
+                    perdieron a sus sostenedores quedando sin una fuente de ingreso. <br><br>
+
+                    Nuestros integrantes son vecinos de la comunidad que producen de forma artesanal macetros 
+                    de greda y piedra, herraminetas manuales de jardineria y el cultivo de plantas, flores,
+                     árboles, arbustos ornamentales y árboles frutales que forman parte de nuestro catálogo.
+                     Nuestros fondos apoyan a fundaciones sin fines de lucro que facilitan 
+                      el personal y la logistica para apoyar a estas familias. Estamos emplazados 
+                      en las afueras de Paredones en la 6° Region y actualmente distribuimos nuestros 
+                      productos desde la zona hacia todo Chile.. <br><br>
+
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="{% static 'img/quienes somos.jpg' %}" alt="Quiénes Somos" class="img-fluid">
+        </div>
+    </div>
+    <hr><br>
+    <div>
+  <!--CARDS-->  
+      <br>
+      <br>
+  <div class="container">   
+    <div class="row">       
+      <div class="col-md">        
+          <div class="card text-center">
+            <div class="card-body">
+              <h4 class="card-title">MISIÓN</h4>
+              <p class="card-text">Poder apoyar a ONGs que brindan personal y logística en ayuda de las familias víctimas de la Pandemia.
+                                    </p>
+              
+            </div>
+          </div>     
+      </div>
+
+      <div class="col-md">        
+          <div class="card text-center">
+            <div class="card-body">
+              <h4 class="card-title">VISIÓN</h4>
+              <p class="card-text"> Entregar productos fabricados y cultivados en nuestra zona, sin uso de pesticidas y de una manera sostenible que proteja nuestro entorno.</p>
+              
+            </div>
+          </div>          
+      </div>
+      
+      <div class="col-md">        
+          <div class="card text-center">
+            <div class="card-body">
+              <h4 class="card-title">VALORES</h4>
+              <p class="card-text">Ayudar a las familias que sufren con la crisis sanitaria entregando productos que no dañan nuestro medio ambiente.</p>
+              
+            </div>
+          </div>          
+      </div>      
+    </div>
+  </div>
+
+<!--Video Youtube-->
+
+  <div style="text-align:center;" >
+    <hr>
+    <hr>
+    <iframe width="460" height="215" src="https://www.youtube.com/embed/KG6wZUTS4mI" title="YouTube video player" 
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+    encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div> 
+
+<!--Footer-->
+<br>
+<br>
+<div class="container-fluid" style="padding:0;margin:0">
+  
+  <footer>
+    
+    <footer class="text-center text-white">
+      <!-- Grid container -->
+      <div class="container p-4 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+
+          <!-- Facebook -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #3b5998;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/rrss-facebook.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;">
+          </a>
+    
+          <!-- Instagram -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #ac2bac;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/5282544_camera_instagram_social media_social network_instagram logo_icon.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;"></a>
+          <!-- Linkedin -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #0082ca;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/rrss-linkedin.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;"></a>
+        </section>
+        <!-- Section: Social media end -->
+      </div>
+      <!-- Grid container end -->
+    
+      <!-- Copyright -->
+      <div style="color:white;">
+        Roderick Véliz<br>
+        Marcos Cariqueo
+      </div>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-white" href="{% url 'index' %}">Vivero Santa Hilda</a>
+      </div>
+      <!-- Copyright end-->
+    </footer>
+
+  </footer>
+ </div>
+ 
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario web con Bootstrap</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Validate JQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <!--Stylesheet css & js-->
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" type="text/css" rel="stylesheet">
+    <script src="{% static 'js/funciones.js' %}"></script>
+    <!--Rules and Messages-->
+    <script>
+      $(function() 
+    {
+      $("#formulario").validate({
+           rules: {
+                  nombre: "required",
+                  direccion: "required",
+                  telefono: "required",
+                  email: "required",
+                  consulta:"required"  
+              }, //rules
+          messages: {
+              nombre: {
+                  required: 'Ingresa tu nombre',
+                  minlength: 'Caracteres insuficientes'
+              },
+              direccion: {
+                  required: 'Ingresa tu direccion',
+                  minlength: 'Caracteres insuficientes'
+              },
+              telefono:{
+                  required: 'Ingresa tu número de teléfono',
+                  minlength: 'Cantidad de digitos insuficiente',
+                  maxlength: 'Número incorrecto'
+              },
+              email:{
+                  required: 'Ingresa tu correo de contacto',
+                  maxlength: 'Correo no válido',
+              },
+              consulta:{
+                  required: '¿Cómo podemos ayudarte?',    
+              }
+          }//messages
+      }); //$('#mi-formulario').validate
+  }); //function val
+
+  function CambiaColor(a)
+      {
+          a.style.background = "lightblue";
+      }
+
+  function CambiaColor1(a)
+      {
+          a.style.background = "white";
+      }
+
+    function MostrarFecha() 
+    {   
+      document.getElementById('demo').innerHTML = Date().toString().substring(4,15);
+    }
+
+  function mytime()
+    {
+      var d=new Date();
+      ap="am";
+      h=d.getHours();
+      m=d.getMinutes();
+      s=d.getSeconds();
+      if (h>11) { ap = "pm"; }
+      if (h>12) { h = h-12; }
+      if (h==0) { h = 12; }
+      if (m<10) { m = "0" + m; }
+      if (s<10) { s = "0" + s; }
+      document.getElementById('timehere').innerHTML=h + ":" + m + ":" + s + " " + ap;
+      t=setTimeout('mytime()',500);
+    }
+</script>
+</head>
+
+<body>
+  {% load static %}
+  <div class="header-row" id="header-row" style="padding: 0px; overflow:hidden;">
+  <div class="container-fluid" style="padding-top: 50px;">
+    <div class="row"> 
+      <div class="col-xs-12"> 
+          <a class="navbar-brand logo" href="{% url 'index' %}">
+            <img src="{% static 'img/bannerlogo1.jpg' %}" alt="company logo" style="width: 100%;">
+          </a> 
+      </div>     
+    </div>
+  </div>
+  </div>
+
+  <!--navbar-->
+  <nav class="navbar fixed-top navbar-expand-sm navbar-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
+      <span class="navbar-toggler-icon btn-outline-success"></span>
+    </button>
+    
+    <!-- logo -->
+    <a class="navbar-brand" href="{% url 'index' %}" style="padding-left: 30px">
+      <img src="{% static 'img/tree-icon.png' %}" width="30" height="30" alt="">
+    </a>
+    
+    <!-- enlaces -->
+    <div class="collapse navbar-collapse" id="opciones">   
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="btn btn-outline-success me-2" href="{% url 'index' %}" role="button">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'productos' %}">Catálogo</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'somos' %}">Quienes Somos</a>
+        </li> 
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'formulario' %}">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" href="{% url 'formulario_registro' %}">Registro</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" id="demo" onclick="MostrarFecha(this)">Fecha</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" id="timehere" onclick="mytime()">Mostrar Hora</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+                <a href="{% url 'mostrar_clientes' %}" class="btn btn-success">Clientes</a>
+                <a href="{% url 'mostrar_productos' %}" class="btn btn-success">Productos</a>
+                <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
+                <a href="#"->Bienvenido {{user.username}}</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="btn btn-success">Iniciar Sesión</a>
+      {% endif %}
+    </div>
+  </nav>
+  <script src="https ://code.jquery.com/jquery-3.4.1.min.js" integrity= "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSF1Bw8HfCJo=" crossorigin=" anonymous" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <!--Formulario de Contacto-->
+    {% csrf_token %}
+    <div class="container">
+    <form id="formulario" action="{% url 'index' %}" method="post">
+        <h1 onmouseover="style.color = 'white'" onmouseout="style.color= 'black'">
+            <br><br>Formulario de Contacto
+        </h1>
+        <div class="form-group">
+            <label class="textlabel" for="usuario">Nombre: </label><br>
+            <input type="text" class="form-control" name="nombre" placeholder="Ingrese su nombre" required minlength="2"
+                onfocus="CambiaColor(this)" onblur="CambiaColor1(this)">
+        </div><br>
+
+        <div class="form-group">
+            <label class="textlabel" for="direccion">Dirección: </label><br>
+            <input type="text" class="form-control" name="direccion" placeholder="Ingrese direccion" required minlength="2"
+                onfocus="CambiaColor(this)" onblur="CambiaColor1(this)">
+        </div><br>
+
+        <div class="form-group">
+            <label class="textlabel" for="telefono">Teléfono de Contacto: </label><br>
+            <input type="number" step="1" class="form-control" name="telefono" placeholder="Ingrese telefono (912345678)" required minlength="9" maxlength="9"
+                onfocus="CambiaColor(this)" onblur="CambiaColor1(this)">
+        </div><br>
+
+        <div class="form-group">
+            <label class="textlabel" for="email">Email: </label><br>
+            <input type="email" class="form-control" name="email" placeholder="nombre@correo.com" required
+            onfocus="CambiaColor(this)" onblur="CambiaColor1(this)">
+        </div><br>
+
+        <div class="form-group">
+            <label class="textlabel" for="consulta">Consulta: </label><br>
+            <textarea type="text" class="form-control" rows="5" name="consulta" placeholder="Ingresa tu consulta aquí" required
+            onfocus="CambiaColor(this)" onblur="CambiaColor1(this)"></textarea>
+        </div>
+        <br><br>
+        <div class="container-fluid, text-center p-3">
+        <button type="submit" class="btn btn-success">Enviar</button>
+        <button type="reset" class="btn btn-danger">Limpiar</button>
+        </div>
+    </form>
+    </div>
+<!--Footer-->
+<br>
+<br>
+<div class="container-fluid" style="padding:0;margin:0">
+  
+  <footer>
+    
+    <footer class="text-center text-white">
+      <!-- Grid container -->
+      <div class="container p-4 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+
+          <!-- Facebook -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #3b5998;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/rrss-facebook.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;">
+          </a>
+    
+          <!-- Instagram -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #ac2bac;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/5282544_camera_instagram_social media_social network_instagram logo_icon.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;"></a>
+          <!-- Linkedin -->
+          <a
+            class="btn btn-primary btn-floating m-1"
+            style="background-color: #0082ca;"
+            href="#!"
+            role="button">
+            <img src="{% static 'img/rrss-linkedin.png' %}" class="img-fluid" style="height:20px; width:20px; padding: 0px;"></a>
+        </section>
+        <!-- Section: Social media end -->
+      </div>
+      <!-- Grid container end -->
+    
+      <!-- Copyright -->
+      <div style="color:white;">
+        Roderick Véliz<br>
+        Marcos Cariqueo
+      </div>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-white" href="{% url 'index' %}">Vivero Santa Hilda</a>
+      </div>
+      <!-- Copyright end-->
+    </footer>
+
+  </footer>
+ </div>
+</body>
+</html>
