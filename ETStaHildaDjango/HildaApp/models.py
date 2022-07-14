@@ -9,7 +9,7 @@ class Cliente(models.Model):
     rut = models.CharField(max_length=9, primary_key=True, verbose_name='Rut')
     nombre= models.CharField(max_length=20, verbose_name='Nombre')
     direccion=models.CharField(max_length=20, verbose_name='Dirección')
-    telefono=models.CharField(max_length=10, verbose_name='Telefono')
+    telefono=models.CharField(max_length=11, verbose_name='Telefono')
     edad=models.CharField(max_length=20, verbose_name='Edad')
     correo=models.CharField(max_length=50, verbose_name='Correo')
 

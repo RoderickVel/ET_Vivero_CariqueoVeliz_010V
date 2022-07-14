@@ -86,9 +86,16 @@ WSGI_APPLICATION = 'StaHildaDjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'localhost:1521/xe',
+        'USER': 'STAHILDA',
+        'PASSWORD':'viveroHilda2',
+        'TEST:': {
+            'USER': 'default_test',
+            'TBLSPACE': 'default_test_tbls',
+            'TBLSPACE_tmp': 'default_test_tbls_tmp',
+        },    
+    },
 }
 
 
