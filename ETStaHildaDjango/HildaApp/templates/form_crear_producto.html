@@ -158,9 +158,12 @@
       </ul>
     </div>
     <div>
-      {% if user.is_authenticated %}
+      {% if user.is_superuser %}
                 <a href="{% url 'mostrar_clientes' %}" class="btn btn-success">Clientes</a>
                 <a href="{% url 'mostrar_productos' %}" class="btn btn-success">Productos</a>
+                <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
+                <a href="#"->Bienvenido {{user.username}}</a>
+      {% elif user.is_authenticated %}
                 <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
                 <a href="#"->Bienvenido {{user.username}}</a>
       {% else %}
@@ -176,6 +179,7 @@
 <body style="background-color:rgb(0, 59, 0);">
     <div class="container">
         <br>
+    {% if user.is_superuser %}
         <h1>Registrando Producto</h1>
 
         <div class="container-fluid">
@@ -221,6 +225,12 @@
                 {% endif %}
             </form>
         </div>
+    {% else %}
+          <div class="container-fluid">
+            <h1 style="text-align:center">No posee permisos para visualizar esta página</h1>
+          </div>
+          <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
+    {% endif %}
     </div>
 
     <!--Footer-->

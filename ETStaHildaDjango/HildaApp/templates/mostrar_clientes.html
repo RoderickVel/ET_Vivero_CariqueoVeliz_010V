@@ -99,9 +99,12 @@
       </ul>
     </div>
     <div>
-      {% if user.is_authenticated %}
+      {% if user.is_superuser %}
                 <a href="{% url 'mostrar_clientes' %}" class="btn btn-success">Clientes</a>
                 <a href="{% url 'mostrar_productos' %}" class="btn btn-success">Productos</a>
+                <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
+                <a href="#"->Bienvenido {{user.username}}</a>
+      {% elif user.is_authenticated %}
                 <a href="{%  url 'logout' %}" class="btn btn-warning">Cerrar Sesión</a>
                 <a href="#"->Bienvenido {{user.username}}</a>
       {% else %}
@@ -113,7 +116,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-
+  {% if user.is_superuser %}
     <div class="container">
       <br>
         <h1>Mostrando Clientes</h1>
@@ -140,7 +143,7 @@
                     <td> {{ cl.telefono }}</td>
                     <td> {{ cl.edad }}</td>
                     <td> {{ cl.correo }}</td>
-                    {% if user.is_authenticated  %}
+                    {% if user.is_superuser  %}
                       <td> <a href="{% url 'form_mod_cliente' cl.rut %}" class="btn btn-primary"> Modificar</a></td>
                       <td> <a href="{% url 'form_del_cliente' cl.rut %}" class="btn btn-danger"> Eliminar</a></td>
                     {% else %}
@@ -151,12 +154,18 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% if user.is_authenticated  %}
+        {% if user.is_superuser  %}
         <div class="float-right">
           <a href="{% url 'form_crear_cliente' %}" class="btn btn-primary">Crear Cliente</a>
         </div>
         {% endif %}
           <a href="{% url 'index' %}" class="btn btn-success">Home</a>
+      {% else %}
+          <div class="container-fluid">
+            <h1 style="text-align:center">No posee permisos para visualizar esta página</h1>
+          </div>
+          <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
+    {% endif %}
     </div>
 
     <!--Footer-->
