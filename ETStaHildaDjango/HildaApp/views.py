@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import csrf
 from .models import Cliente, Producto
-from .forms import ClienteForm, ProductoForm
+from .forms import CarroForm, ClienteForm, ProductoForm
 
 # Create your views here.
 
@@ -10,6 +10,17 @@ def index(request):
 
 def productos(request):
     return render(request, 'productos.html')
+
+def comprar_prod(request):
+    if request.method=='POST':
+        carro_form = CarroForm(request.POST)
+        if carro_form.is_valid():
+            carro_form.save()        #similar al insert
+            return redirect('comprar_prod')
+    else:
+        cliente_form=ClienteForm()
+    return render(request, 'form_crear_cliente.html', {'cliente_form': cliente_form})
+    return render(request, 'comprar_prod.html')
 
 def somos(request):
     return render(request, 'somos.html')

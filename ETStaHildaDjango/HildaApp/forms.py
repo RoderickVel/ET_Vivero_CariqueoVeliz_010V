@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.forms import widgets
 from django.forms.models import ModelChoiceField
 from django.forms.widgets import Widget
-from . models import Cliente, Producto
+from . models import Carro, Cliente, Producto
 from email.mime import image
 from tkinter.tix import IMAGE
 
@@ -122,7 +122,22 @@ class ProductoForm(forms.ModelForm):
                     'id': 'imagen',
                 }
             )
+        }
 
+class CarroForm(forms.ModelForm):
 
-
+    class Meta: 
+        model= Carro
+        fields = ['nombreproducto']
+        labels ={
+            'nombreproducto': 'Nombre producto',
+        }
+        widgets={
+            'nombreproducto': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Agregue Productos al Carro', 
+                    'id': 'nombreproducto'
+                }
+            )
         }
