@@ -133,7 +133,7 @@ class CarroForm(forms.ModelForm):
             'nombreproducto': 'Nombre producto',
         }
         widgets={
-            'nombreproducto': forms.CheckboxInput(
+            'nombreproducto': forms.TextInput(
                 attrs={
                     'class': 'form-control', 
                     'placeholder': 'Agregue Productos al Carro', 

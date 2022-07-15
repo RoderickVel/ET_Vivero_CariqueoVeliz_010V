@@ -62,6 +62,23 @@
     {
         obj.style.background= "white";  
     }
+
+    $(function() 
+    {
+      $("#formulario").validate({
+           rules: {
+                  carro: {
+                        nombreproducto: "required",
+                  }   
+                  
+              }, //rules
+          messages: {
+              nombreproducto: {
+                  required: 'Ingrese Rut del Cliente ',
+              }
+          }//messages
+      }); //$('#mi-formulario').validate
+  }); //function
   </script>
 
 </head>
@@ -192,7 +209,7 @@
                 </div>
 
                 <br><br>
-                  <input type="submit" class="btn btn-primary" value="Comprar">
+                  <input type="submit" class="btn btn-primary" value="Añadir Selección al Carro">
             </form>
           </div>
     {% else %}

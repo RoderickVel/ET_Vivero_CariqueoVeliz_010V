@@ -18,8 +18,7 @@ def comprar_prod(request):
             carro_form.save()        #similar al insert
             return redirect('comprar_prod')
     else:
-        cliente_form=ClienteForm()
-    return render(request, 'form_crear_cliente.html', {'cliente_form': cliente_form})
+        carro_form=CarroForm()
     return render(request, 'comprar_prod.html')
 
 def somos(request):
