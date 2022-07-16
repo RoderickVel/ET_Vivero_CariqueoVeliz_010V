@@ -194,6 +194,23 @@ function MostrarFecha()
 
         </div>
       </div>
+      {% if user.is_authenticated %} 
+      <div class="container">   
+        <div class="row">       
+          <div class="col-md">        
+            <a class="btn btn-primary card text-center" style="background-color:rgb(0, 112, 28)" href="{% url 'mostrar_productos' %}">
+              <div onmouseover="Mover(this)" onmouseout="MoverFuera(this)" class="card-body">
+                {% if user.is_superuser %}  
+                  <h2 class="card-title">Mostrar Productos</h2>
+                {% elif user.is_authenticated %}
+                  <h2 class="card-title">Ir a Comprar</h2>
+                {% endif %}
+              </div>
+            </a>     
+          </div>
+        </div>          
+      </div>
+      {% endif %}
 
 <!--Footer-->
 <br>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Cliente</title>
     {% load static %}
     <link href="{% static 'css/styles.css' %}" type="text/css" rel="stylesheet">
     <script src="{% static 'js/funciones.js' %}"></script>
@@ -45,35 +44,28 @@
 
 <script>
 
-$(function() 
+    $(function() 
     {
       $("#formulario").validate({
            rules: {
-                  producto: {
-                        id: "required",
-                        tipo: "required",
-                        name: "required",
-                        stock: "required",
-                        price: "required",
+                  compra: {
+                        id_compra: "required",
+                        total: "required",
+                        estado: "required",
                   }   
                   
               }, //rules
-              messages: {
-              id: {
-                  required: 'Ingrese Id de Producto',
+          messages: {
+              id_compra: {
+                  required: 'Id de Compra ',
               },
-              tipo: {
-                  required: 'Ingrese Tipo (herramienta/arbol frutal/artesanía',
+              total: {
+                  required: 'Total',
               },
-              name:{
-                  required: 'Ingrese Nombre del Producto',
-              },
-              stock:{
-                  required: 'Ingrese Stock Disponible',
-              },
-              price:{
-                  required: 'Ingrese Precio',
-              },
+              estado:{
+                  required: 'Estado compra',
+              }
+              
           }//messages
       }); //$('#mi-formulario').validate
   }); //function
@@ -83,7 +75,7 @@ $(function()
 
 <script>
 
-    function MostrarFecha() 
+function MostrarFecha() 
     {   
       document.getElementById('demo').innerHTML = Date().toString().substring(4,15);
     }
@@ -104,9 +96,13 @@ $(function()
     t=setTimeout('mytime()',500);
   }
 
+  function alerta()
+{
+    alert('Debe Iniciar Sesión')
+}
 </script>
+    <title>Crear Cliente</title>
 </head>
-<body style="background-color:rgb(0, 59, 0);">
 
   {% load static %}
   <div class="header-row" id="header-row" style="padding: 0px; overflow:hidden;">
@@ -176,56 +172,50 @@ $(function()
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-  <body style="background-color:rgb(0, 59, 0);">
+
+<body style="background-color:rgb(0, 59, 0);">
     <div class="container">
         <br>
-      {% if user.is_superuser %}
-        <h1>Modificando Producto</h1>
+    {% if user.is_authenticated %}
+        <h1>Confirme datos de Compra</h1>
 
           <div class="container-fluid">
             <form method="POST" action="#" id="formulario">
                 {% csrf_token %}
-
+                
                 <div class="form-group">
-                  <label class="textlabel">{{ form.id.label}}</label>
-                  {{ form.id}}
+                    <label class="textlabel">{{ compra_form.id.label}}</label>
+                    {{ compra_form.id}}
                 </div>
 
                 <div class="form-group">
-                    <label class="textlabel">{{ form.tipo.label}}</label>
-                    {{ form.tipo}}
+                    <label class="textlabel">{{ compra_form.total.label}}</label>
+                    <label class="textlabel">{{ cart_total_amount }}</label>
+                    {{ compra_form.total }}
                 </div>
 
                 <div class="form-group">
-                    <label class="textlabel">{{ form.name.label}}</label>
-                    {{ form.name}}
-                </div>
-                <div class="form-group">
-                    <label class="textlabel">{{ form.stock.label}}</label>
-                    {{ form.stock}}
-                </div>
-                <div class="form-group">
-                    <label class="textlabel">{{ form.price.label }}</label>
-                    {{ form.price}}
+                    <label class="textlabel">{{ compra_form.estado.label}}</label>
+                    {{ compra_form.estado}}
                 </div>
 
                 <br><br>
                 {% if user.is_authenticated %}
-                  <input type="submit" class="btn btn-primary" value="Modificar">
-                  <a href="{% url 'mostrar_productos' %}" class="btn btn-success">Mostrar Productos</a>
+                  <input type="submit" class="btn btn-primary" value="Enviar">
+                  <input type="reset" class="btn btn-danger" value="Limpiar">
                 {% else %}
-                  <input type="submit" class="btn btn-secondary" value="Modificar" disabled>
-                  <label class="textlabel">Debe Iniciar Sesión</label>
-                  <a href="{% url 'index' %}" class="btn btn-success float-right">Home</a>
-                {% endif %}   
+                <input type="submit" class="btn btn-secondary" value="Enviar" disabled>
+                <input type="reset" class="btn btn-secondary" value="Limpiar" disabled>
+                <label class="textlabel">Debe Iniciar Sesión</label>
+                {% endif %}
             </form>
-        {% else %}
-            <div class="container-fluid">
-              <h1 style="text-align:center">No posee permisos para visualizar esta página</h1>
-            </div>
-            <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
-        {% endif %}
           </div>
+    {% else %}
+          <div class="container-fluid">
+            <h1 style="text-align:center">No posee permisos para visualizar esta página</h1>
+          </div>
+          <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
+    {% endif %}
       </div>
 
     <!--Footer-->

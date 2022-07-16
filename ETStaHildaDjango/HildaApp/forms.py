@@ -1,11 +1,15 @@
+from logging import PlaceHolder
+from tkinter import DISABLED
+from urllib import request
 from django import forms
 from django.forms import ModelForm
 from django.forms import widgets
 from django.forms.models import ModelChoiceField
 from django.forms.widgets import Widget
-from . models import Carro, Cliente, Producto
+from . models import Cliente, Compra, Producto
 from email.mime import image
 from tkinter.tix import IMAGE
+from random import randint
 
 class ClienteForm(forms.ModelForm):
 
@@ -120,6 +124,41 @@ class ProductoForm(forms.ModelForm):
                     'class': 'form-control',
                     'placeholder': 'Ingrese Imagen',
                     'id': 'image',
+                }
+            )
+        }
+
+class CompraForm(forms.ModelForm):
+
+    class Meta: 
+        model= Compra
+        fields = ['id_compra', 'total', 'estado']
+        labels ={
+            'id_compra': 'Id de compra', 
+            'total': 'Total', 
+            'estado': 'Estado Compra', 
+        }
+        widgets={
+            'id_compra': forms.HiddenInput(
+                attrs={
+                    'class': 'form-control', 
+                    'id': 'id_compra',
+                    'editable': DISABLED,
+                    'placeholder': randint(1,99999)
+                }
+            ), 
+            'total': forms.TextInput(
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Confirme total', 
+                    'id': 'total'
+                }
+            ), 
+            'estado': forms.TextInput(
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Ingrese En Proceso', 
+                    'id': 'estado'
                 }
             )
         }

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import form_crear_producto, form_mod_cliente, formulario_registro, index, somos, formulario, productos, mostrar_clientes, form_crear_cliente, mostrar_productos, form_crear_producto, form_mod_cliente, form_mod_producto,form_del_cliente,form_del_producto
+from .views import form_conf_compra, form_crear_producto, form_mod_cliente, formulario_registro, index, somos, formulario, productos, mostrar_clientes, form_crear_cliente, mostrar_productos, form_crear_producto, form_mod_cliente, form_mod_producto,form_del_cliente,form_del_producto
 from . import views
 
 urlpatterns = [
@@ -22,4 +22,5 @@ urlpatterns = [
     path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
+    path('form_conf_compra/',form_conf_compra, name='form_conf_compra'),
 ]

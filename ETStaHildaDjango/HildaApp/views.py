@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import csrf
 from .models import Cliente, Producto
-from .forms import ClienteForm, ProductoForm
+from .forms import ClienteForm, CompraForm, ProductoForm
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
@@ -132,3 +132,13 @@ def cart_clear(request):
 @login_required(login_url="/users/login")
 def cart_detail(request):
     return render(request, 'cart_detail.html')
+
+def form_conf_compra(request):
+    if request.method=='POST':
+        compra_form = CompraForm(request.POST)
+        if compra_form.is_valid():
+            compra_form.save() #similar al insert
+            return redirect('form_conf_compra')
+    else:
+        compra_form=CompraForm()
+    return render(request, 'index.html', {'compra_form': compra_form})
