@@ -117,7 +117,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity= "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSF1Bw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  {% if user.is_superuser %}
+  {% if user.is_authenticated %}
     <div class="container"><br>
         <h1>Mostrando Productos</h1>
 
@@ -130,8 +130,12 @@
                     <th>Stock</th>
                     <th>Precio</th>
                     <th>Imagen</th>
+                    {% if user.is_superuser %}
                     <th>Modificar Producto</th>
                     <th>Eliminar Producto</th>
+                    {% else %}
+                    <th>Carro</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -139,28 +143,34 @@
                 <tr>
                     <td> {{ pr.id }}</td>
                     <td> {{ pr.tipo }}</td>
-                    <td> {{ pr.nombreproducto }}</td>
+                    <td> {{ pr.name }}</td>
                     <td> {{ pr.stock }}</td>
-                    <td> {{ pr.precio }}</td>
+                    <td> {{ pr.price }}</td>
                     <td>
-                    {% if pr.imagen %}
-                      <img src="{{ pr.imagen.url }}" width="150" height="150">
+                    {% if pr.image %}
+                      <img src="{{ pr.image.url }}" width="150" height="150">
                     {% endif %}
                     </td>
-                    {% if user.is_authenticated  %}
+                    {% if user.is_superuser  %}
                       <td> <a href="{% url 'form_mod_producto' pr.id %}" class="btn btn-primary"> Modificar</a></td>
                       <td> <a href="{% url 'form_del_producto' pr.id %}" class="btn btn-danger"> Eliminar</a></td>
-                    {% else %}
-                      <td><a href="#" style="color:red;">No tiene permisos para modificar</a></td>
-                      <td><a href="#" style="color:red;">No tiene permisos para eliminar</a></td>
+                    {% elif user.is_authenticated %}
+                    <td>
+                      <a class="btn btn-primary" href="{% url 'cart_add' pr.id %}">Añadir al carro</a>
+                      <a class="btn btn-danger" href="{% url 'item_clear' pr.id %}">Quitar del carro</a>
+                    </td>
                     {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% if user.is_authenticated  %}
+        {% if user.is_superuser  %}
         <div class="float-right">
           <a href="{% url 'form_crear_producto' %}" class="btn btn-primary">Crear Producto</a>
+        </div>
+        {% elif user.is_authenticated  %}
+        <div style="text-align:center">
+          <a href="{% url 'cart_detail' %}" class="btn btn-primary">Ir a Check Out</a>
         </div>
         {% endif %}
           <a href="{% url 'index' %}" class="btn btn-success">Home</a>

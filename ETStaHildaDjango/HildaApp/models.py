@@ -19,12 +19,12 @@ class Cliente(models.Model):
 class Producto(models.Model):
     id = models.CharField(max_length=5, primary_key=True, verbose_name='Id')
     tipo= models.CharField(max_length=20, verbose_name='Tipo')
-    nombreproducto=models.CharField(max_length=20, verbose_name='Nombre Producto')
+    name=models.CharField(max_length=20, verbose_name='Nombre Producto')
     stock= models.CharField(max_length=20, verbose_name='Stock')
-    precio=models.CharField(max_length=10, verbose_name='Precio')
-    imagen=models.ImageField(upload_to="productos", null=True)
+    price=models.IntegerField(verbose_name='Precio')
+    image=models.ImageField(upload_to="productos", null=True)
     def __str__(self):
-        return self.nombreproducto
+        return self.name
 
 class Carro(models.Model):
     id_carro = models.CharField(max_length=5, primary_key=True, verbose_name='Id Carro')

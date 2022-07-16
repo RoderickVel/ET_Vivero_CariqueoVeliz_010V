@@ -62,28 +62,11 @@
     {
         obj.style.background= "white";  
     }
-
-    $(function() 
-    {
-      $("#formulario").validate({
-           rules: {
-                  carro: {
-                        nombreproducto: "required",
-                  }   
-                  
-              }, //rules
-          messages: {
-              nombreproducto: {
-                  required: 'Ingrese Rut del Cliente ',
-              }
-          }//messages
-      }); //$('#mi-formulario').validate
-  }); //function
   </script>
 
 </head>
 
-<body style="background-color:rgb(0, 59, 0);">
+<body>
   {% load static %}
   <div class="header-row" id="header-row" style="padding: 0px; overflow:hidden;">
   <div class="container-fluid" style="padding-top: 50px;">
@@ -194,33 +177,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <div class="container">
-        <br>
+
+    {% load cart_tag %}
+
     {% if user.is_authenticated %}
-        <h1>Compra de Productos</h1>
-
-          <div class="container-fluid">
-            <form method="POST" action="#" id="formulario">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label class="textlabel">{{ carro_form.nombreproducto.label}}</label>
-                    {{ carro_form.nombreproducto}}
+    <div class="container"><br>
+        <h1>Mostrando Carro de Compras</h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>              
+            {% for key,value in request.session.cart.items %}
+            <tr>
+                <td>{{value.name}}</td> 
+                <td>{{value.price}}</td> 
+                <td>{{value.quantity}}</td> 
+                <td>{{value.price|multiply:value.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <div class="container">   
+        <div class="row">       
+          <div class="col-md">        
+              <div class="card text-center">
+                <div onmouseover="Mover(this)" onmouseout="MoverFuera(this)" class="card-body">
+                  <h4 class="card-title">Total</h4>
+                  {% for key,total in request.session.cart.items %}
+                    {{ total.price|add:total.price }}
+                  {% endfor %}
                 </div>
-
-                <br><br>
-                  <input type="submit" class="btn btn-primary" value="Añadir Selección al Carro">
-            </form>
-          </div>
+              </div>          
+            </div>
     {% else %}
           <div class="container-fluid">
-            <h1 style="text-align:center">Inicie Sesión para Comprar</h1>
+            <h1 style="text-align:center">Para ver su carro, debe iniciar sesión</h1>
           </div>
           <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
     {% endif %}
-      </div>
-
-    <!--Footer-->
+    <br><br>
+<!--Footer-->
   <br>
   <br>
   <div class="container-fluid" style="padding:0;margin:0">

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import csrf
 from .models import Cliente, Producto
-from .forms import CarroForm, ClienteForm, ProductoForm
+from .forms import ClienteForm, ProductoForm
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
 
 # Create your views here.
 
@@ -10,16 +12,6 @@ def index(request):
 
 def productos(request):
     return render(request, 'productos.html')
-
-def comprar_prod(request):
-    if request.method=='POST':
-        carro_form = CarroForm(request.POST)
-        if carro_form.is_valid():
-            carro_form.save()        #similar al insert
-            return redirect('comprar_prod')
-    else:
-        carro_form=CarroForm()
-    return render(request, 'comprar_prod.html')
 
 def somos(request):
     return render(request, 'somos.html')
@@ -97,3 +89,46 @@ def form_del_producto(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
     return redirect('mostrar_productos')
+
+@login_required(login_url="/users/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Producto.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("mostrar_productos")
+
+
+@login_required(login_url="/users/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Producto.objects.get(id=id)
+    cart.remove(product)
+    return redirect("mostrar_productos")
+
+
+@login_required(login_url="/users/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Producto.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Producto.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/users/login")
+def cart_detail(request):
+    return render(request, 'cart_detail.html')

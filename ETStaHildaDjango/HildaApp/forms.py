@@ -69,13 +69,13 @@ class ProductoForm(forms.ModelForm):
 
     class Meta: 
         model= Producto
-        fields = ['id', 'tipo', 'nombreproducto', 'stock', 'precio', 'imagen']
+        fields = ['id', 'tipo', 'name', 'stock', 'price', 'image']
         labels ={
             'id': 'Id', 
             'tipo': 'Tipo', 
-            'nombreproducto': 'Nombre de Producto', 
-            'precio': 'Precio',
-            'imagen' : 'Imagen',
+            'name': 'Nombre de Producto', 
+            'price': 'Precio',
+            'image' : 'Imagen',
         }
         widgets={
             'id': forms.TextInput(
@@ -91,11 +91,11 @@ class ProductoForm(forms.ModelForm):
                     'id': 'tipo'
                 }
             ), 
-            'nombreproducto': forms.TextInput(
+            'name': forms.TextInput(
                 attrs={
                     'class': 'form-control', 
                     'placeholder': 'Ingrese Nombre', 
-                    'id': 'nombreproducto'
+                    'id': 'name'
                 }
             ),
 
@@ -107,37 +107,19 @@ class ProductoForm(forms.ModelForm):
                 }
             ), 
 
-            'precio': forms.TextInput(
+            'price': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'Ingrese Precio',
-                    'id': 'precio',
+                    'id': 'price',
                 }
             ),
 
-            'imagen': forms.FileInput(
+            'image': forms.FileInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'Ingrese Imagen',
-                    'id': 'imagen',
-                }
-            )
-        }
-
-class CarroForm(forms.ModelForm):
-
-    class Meta: 
-        model= Carro
-        fields = ['nombreproducto']
-        labels ={
-            'nombreproducto': 'Nombre producto',
-        }
-        widgets={
-            'nombreproducto': forms.TextInput(
-                attrs={
-                    'class': 'form-control', 
-                    'placeholder': 'Agregue Productos al Carro', 
-                    'id': 'nombreproducto'
+                    'id': 'image',
                 }
             )
         }
