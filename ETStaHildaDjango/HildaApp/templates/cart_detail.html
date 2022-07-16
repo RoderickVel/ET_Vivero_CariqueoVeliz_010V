@@ -55,12 +55,12 @@
     
     function Mover(obj)
     {
-        obj.style.background="lightgreen";
+        obj.style.background="#3b5998";
     }
 
     function MoverFuera(obj)
     {
-        obj.style.background= "white";  
+        obj.style.background= "rgb(0, 112, 28)";  
     }
   </script>
 
@@ -208,15 +208,15 @@
     <div class="container">   
         <div class="row">       
           <div class="col-md">        
-              <div class="card text-center">
-                <div onmouseover="Mover(this)" onmouseout="MoverFuera(this)" class="card-body">
-                  <h4 class="card-title">Total</h4>
-                  {% for key,total in request.session.cart.items %}
-                    {{ total.price|add:total.price }}
-                  {% endfor %}
-                </div>
-              </div>          
-            </div>
+            <a class="btn btn-primary card text-center" style="background-color:rgb(0, 112, 28)">
+              <div onmouseover="Mover(this)" onmouseout="MoverFuera(this)" class="card-body">
+                  <h2 class="card-title">Total a Pagar</h2>
+                  <h2 class="card-title">{{ cart_total_amount }}</h2>
+              </div>
+            </a>     
+          </div>
+        </div>          
+      </div>
     {% else %}
           <div class="container-fluid">
             <h1 style="text-align:center">Para ver su carro, debe iniciar sesión</h1>
@@ -224,6 +224,9 @@
           <div style="text-align:center"><a href="{% url 'index' %}" class="btn btn-success">Home</a></div>
     {% endif %}
     <br><br>
+    <div style="text-align:center">
+      <a href="{% url 'cart_clear' %}" class="btn btn-danger">Vaciar Carro</a>
+    </div>
 <!--Footer-->
   <br>
   <br>
